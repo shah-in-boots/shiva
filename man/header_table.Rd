@@ -34,14 +34,65 @@ header_table(
 is_header_table(x)
 }
 \arguments{
-\item{INFO}{List of characters that will be applied when writing out file}
+\item{record_name}{A \code{character} vector of record line information}
+
+\item{number_of_channels}{An \code{integer} describing number of signals}
+
+\item{frequency}{A \code{numeric} value of sampling frequency, 250 Hz default}
+
+\item{samples}{An \code{integer} for the number of samples}
+
+\item{start_time}{The \code{POSIXct} time of recording}
+
+\item{ADC_saturation}{An \code{integer} representing ADC saturation}
+
+\item{file_name}{A \code{character} for the signal specific information}
+
+\item{storage_format}{An \code{integer} of the bits for the storage format, 16-bit
+default}
+
+\item{ADC_gain}{An \code{integer} of ADC gain, default of 200}
+
+\item{ADC_baseline}{An \code{integer} of ADC baseline, defaults to \strong{ADC_zero}}
+
+\item{ADC_units}{A \code{character} to describe ADC units, "mV" is default}
+
+\item{ADC_resolution}{An \code{integer} for ADC resolution, default is 12}
+
+\item{ADC_zero}{An \code{integer} for ADC zero, defaults to 0}
+
+\item{initial_value}{An \code{integer} for the initial value, defaults to
+\strong{ADC_zero} value}
+
+\item{checksum}{An \code{integer} that serves as the checksum}
+
+\item{blocksize}{An \code{integer} of the block size}
+
+\item{label}{A \code{character} description of the signal}
+
+\item{info_strings}{A \code{list} of strings that will be written as an appendix
+to the header file, usually containing information about the channels,
+(e.g. list of colors, extra labels, etc).}
+
+\item{additional_gain}{A \code{numeric} Additional gain, defaults to 1.0}
+
+\item{low_pass}{An \code{integer} Low pass filter}
+
+\item{high_pass}{An \code{integer} High pass filter}
+
+\item{color}{A \code{character} Color as hexadecimal format, defaults to black}
+
+\item{scale}{An \code{integer} Scale}
+
+\item{x}{A \code{data.table} object that serves as the header table}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 \code{header_table()} modifies the \code{data.table} class to work with header data.
 The header data is read in from a similar format as to that of WFDB files and
-should be compatible/interchangeable when writing out to disk.
+should be compatible/interchangeable when writing out to disk. The details
+extensively cover the type of data that is input. Generally, this function is
+called by \verb{read_*_header()} functions and will generally not be called by the
+end-user.
 }
 \section{Header file structure}{
 There are three components to the header file
@@ -62,13 +113,13 @@ signals, and there must be as many signal lines as there are reported by the
 above record line. From left to right....
 \itemize{
 \item File name: usually *.dat
-\item Format \if{html}{\out{<integer>}}: represents storage type, e.g. 8-bit or 16-bit
+\item Format \code{integer}: represents storage type, e.g. 8-bit or 16-bit
 \item ADC gain: ADC units per physical unit (optional)
 \itemize{
 \item Baseline: corresponds to 0 physical units, sep = '*(0)" (optional)
 \item Units: with '/' as a field separator e.g '*/mV' (optional)
 }
-\item ADC resolution \if{html}{\out{<integer>}}: bits, usually 8 or 16 (optional)
+\item ADC resolution \code{integer}: bits, usually 8 or 16 (optional)
 \item ADC zero: represents middle of ADC input range (optional)
 \item Initial value (optional)
 \item Checksum (optional)

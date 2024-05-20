@@ -1,9 +1,21 @@
-#' @keywords internal
-#' @noRd
+#' WFDB path utilities
+#'
+#' These functions are used to help find and locate commands from the
+#' installation of WFDB. They are helpful in setting and getting path options
+#' and specific WFDB commands. They are primarily internal helper functions, but
+#' are documented for troubleshooting purposes.
+#'
+#' @param .app The name of WFDB software command or application as a `character`
+#'
+#' @param .path A `character` string that describes the path to the WFDB binary
+#'   directory
+#'
+#' @name wfdb_paths
+#' @export
 find_wfdb_software <- function() {
 
 	# Check to see if WFDB software path is already set
-	op <- getOption('wfdb_path')
+	op <- getOption("wfdb_path")
 
 	# If NULL then needs to be set
 	if (is.null(op)) {
@@ -15,6 +27,7 @@ find_wfdb_software <- function() {
 			)
 		} else if (grepl("mac", utils::sessionInfo()$running)) {
 			os <- "mac"
+
 			packageStartupMessage(
 				"Operating system detected is Apple. Default installation location for WFDB will be on root. Before using any `wfdb`-based functions, please set the location of the binary directory using `set_wfdb_path()`, which modifies `options('wfdb_path')`."
 			)
@@ -36,20 +49,21 @@ find_wfdb_software <- function() {
 
 }
 
-#' @keywords internal
-#' @noRd
+#' @rdname wfdb_paths
+#' @export
 set_wfdb_path <- function(.path) {
 	options(wfdb_path = .path)
 }
 
-#' @keywords internal
-#' @noRd
+#' @rdname wfdb_paths
+#' @export
 find_wfdb_command <- function(.app,
 															.path = getOption('wfdb_path')) {
 
 	# Check for wfdb_path
-	if (is.null(.path)) {
-		stop('No wfdb_path set. Please set using `set_wfdb_path()`')
+	# Maybe NULL or NA
+	if (is.null(.path) | is.na(.path)) {
+		stop('No `wfdb_path` set. Please set using `set_wfdb_path()`')
 	}
 
 	cmd <- fs::path(.path, .app)
@@ -108,7 +122,7 @@ annotation_table_to_lines <- function(data) {
 #' @noRd
 parse_date_and_time <- function(x) {
 
-	stopifnot('Requires `x` to be a character string' = is.character(x))
+	stopifnot('Requires `x` to be a `character`' = is.character(x))
 
 	# Time
 	# 	Assumes HH:MM:SS

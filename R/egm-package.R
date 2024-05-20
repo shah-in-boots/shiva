@@ -5,7 +5,7 @@
 #'
 #' @import vctrs
 #' @keywords internal
-#' @name egm-vctrs
+#' @name EGM-vctrs
 
 ## usethis namespace: start
 #' @importFrom data.table :=
@@ -17,5 +17,6 @@
 #' @importFrom data.table .NGRP
 #' @importFrom data.table .SD
 #' @importFrom data.table data.table
+#' @importFrom rlang .data
 ## usethis namespace: end
 NULL
